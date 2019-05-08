@@ -1,0 +1,38 @@
+html {
+    height: 100% !important;
+}
+
+body {
+    height: 100% !important;
+    padding: auto;
+    margin: auto;
+}
+
+h1 {
+    padding-top: 2vw;
+}
+
+h1, canvas {
+    margin: 2vw;
+}
+
+svg {
+    margin: 0 2vw;
+}
+
+.horotontal {
+    stroke-dasharray: 10 10;
+}
+
+.bar { fill: steelblue; }
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: rgb(255, 255, 255, 0.9);
+    border-width: 2px;
+    border-color: grey;
+    pointer-events: none;
+}
