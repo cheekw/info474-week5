@@ -29,8 +29,8 @@ function drawPlot(data, xFeature, yFeature) {
   let limits = getMinMax(data, yFeature);
   let scaleValues = drawAxes(data, limits, xFeature);
   drawLabels();
-  drawBars(data, scaleValues, xFeature, yFeature);
-  drawHorizontalLine(limits, scaleValues);
+  let tooltip = drawBars(data, scaleValues, xFeature, yFeature);
+  drawHorizontalLine(limits, scaleValues, tooltip);
 }
 
 function drawBars(data, scaleValues, xFeature, yFeature) {
@@ -39,7 +39,7 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
   let y = scaleValues.yScale;
 
   // make tooltip
-  let div = d3.select("body").append("div")
+  let tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -52,37 +52,50 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
     .attr('x', d => x(d[xFeature]) + 1)
     .attr('y', d => y(d[yFeature]))
     .attr('width', 25)
-    .attr('height', d =>  height - y(d[yFeature]))
+    .attr('height', d => height - y(d[yFeature]))
     .on("mousemove", (d) => {
-      div.transition()
+      tooltip.transition()
         .duration(10)
         .style("opacity", 1);
-      div.html("Year: " + d[xFeature] + "<br/>" +
-      "Episodes: " + d['num_episodes'] + "<br/>" +
-      "Average Viewers (millions): " + (Math.round(d[yFeature] * 10) / 10) + "<br/>" + "<br/>" +
-      "Most Watched Episode: " + d['most_viewed_title'] + "<br/>" +
-      "Viewers (millions): " + d['max_views'] + "<br/>")
+      tooltip.html("Year: " + d[xFeature] + "<br/>" +
+        "Episodes: " + d['num_episodes'] + "<br/>" +
+        "Average Viewers (millions): " + (Math.round(d[yFeature] * 10) / 10) + "<br/>" + "<br/>" +
+        "Most Watched Episode: " + d['most_viewed_title'] + "<br/>" +
+        "Viewers (millions): " + d['max_views'] + "<br/>")
         .style("left", (d3.event.pageX + 10) + "px")
         .style("top", (d3.event.pageY + 10) + "px");
     })
     .on("mouseout", (d) => {
-      div.transition()
+      tooltip.transition()
         .style("opacity", 0);
     });
+    return tooltip;
 }
 
 // draws mean line
-function drawHorizontalLine(limits, scaleValues) {
-  console.log(limits.mean)
+function drawHorizontalLine(limits, scaleValues, tooltip) {
   let y = scaleValues.yScale;
   svgContainer.append("g")
     .attr("transform", "translate(0, " + y(limits.mean) + ")")
-    .attr("class", "horozontal")
+    .attr("class", "horizontal")
     .append("line")
     .attr("x1", margin.left)
     .attr("x2", width)
+    .style("stroke-dasharray", ("10, 3"))
     .style("stroke", "black")
-    .style("stroke-width", "2px")
+    .style("stroke-width", "3px")
+    .on("mousemove", () => {
+      tooltip.transition()
+        .duration(10)
+        .style("opacity", 1);
+      tooltip.html("Overall Average = " + (Math.round(limits.mean * 10) / 10))
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY + 10) + "px");
+    })
+    .on("mouseout", (d) => {
+      tooltip.transition()
+        .style("opacity", 0);
+    });
 }
 
 // draws the x axis and y axis labels
