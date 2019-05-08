@@ -57,7 +57,9 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
       tooltip.transition()
         .duration(10)
         .style("opacity", 1);
-      tooltip.html("Year: " + d[xFeature] + "<br/>" +
+      tooltip.html(
+        "Season #" + d["Season"] + "<br/>" +
+        "Year: " + d[xFeature] + "<br/>" +
         "Episodes: " + d['num_episodes'] + "<br/>" +
         "Average Viewers (millions): " + (Math.round(d[yFeature] * 10) / 10) + "<br/>" + "<br/>" +
         "Most Watched Episode: " + d['most_viewed_title'] + "<br/>" +
