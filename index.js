@@ -53,6 +53,13 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
     .attr('y', d => y(d[yFeature]))
     .attr('width', 25)
     .attr('height', d => height - y(d[yFeature]))
+    .attr('fill', (d) => {
+      if (d['Data'] == "Actual") {
+        return "steelblue";
+      } else {
+        return "gray"
+      }
+    })
     .on("mousemove", (d) => {
       tooltip.transition()
         .duration(10)
