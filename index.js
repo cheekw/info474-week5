@@ -57,7 +57,7 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
       if (d['Data'] == "Actual") {
         return "steelblue";
       } else {
-        return "#F28E2B"
+        return "#F28E2B";
       }
     })
     .on("mousemove", (d) => {
@@ -78,7 +78,33 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
       tooltip.transition()
         .style("opacity", 0);
     });
-    return tooltip;
+
+  svgContainer.append("text")
+    .attr("x", width - 30)
+    .attr("y", margin.top + 10)
+    .style("text-anchor", "middle")
+    .text("Actual");
+  svgContainer.append("text")
+    .attr("x", width - 40)
+    .attr("y", margin.top + 30)
+    .style("text-anchor", "middle")
+    .text("Estimated");
+
+  svgContainer.append("rect")
+    .attr("x", width)
+    .attr("y", margin.top)
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("fill", "steelblue")
+
+  svgContainer.append("rect")
+    .attr("x", width)
+    .attr("y", margin.top + 20)
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("fill", "#F28E2B")
+
+  return tooltip;
 }
 
 // draws mean line
@@ -98,8 +124,8 @@ function drawHorizontalLine(limits, scaleValues, tooltip) {
         .duration(10)
         .style("opacity", 1);
       tooltip.html("Overall Average = " + (Math.round(limits.mean * 10) / 10))
-      .style("left", (d3.event.pageX + 10) + "px")
-      .style("top", (d3.event.pageY + 10) + "px");
+        .style("left", (d3.event.pageX + 10) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
     })
     .on("mouseout", (d) => {
       tooltip.transition()
