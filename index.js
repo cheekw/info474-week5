@@ -57,7 +57,7 @@ function drawBars(data, scaleValues, xFeature, yFeature) {
       if (d['Data'] == "Actual") {
         return "steelblue";
       } else {
-        return "gray"
+        return "#F28E2B"
       }
     })
     .on("mousemove", (d) => {
